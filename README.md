@@ -5,7 +5,7 @@
 ### install
 
 ```bash
-pip install sanic-aioMySQL
+pip install git+https://github.com/tuna2134/sanic-aioMySQL.git
 ```
 
 ### Use
