@@ -19,6 +19,11 @@ class ExtendMySQL:
             return self.__pool
         else:
             raise ConnectionError("Please connect to MySQL server")
+    
+    async def close(self):
+        self.pool.close()
+        await self.pool.wait_closed()
+        self.__pool = None
 
     async def before_server_start(self, app, loop):
         args, kwargs = self.setting
