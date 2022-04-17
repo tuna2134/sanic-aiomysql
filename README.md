@@ -43,3 +43,21 @@ async def main(request):
     
 app.run()
 ```
+
+or
+
+```python
+from sanic import Sanic, response
+from sanic_mysql import ExtendMySQL, cursor
+
+app = Sanic("app")
+ExtendMySQL(app, user="root", host=127.0.0.1, password="hello", autocommit=True)
+
+@app.get("/")
+@cursor()
+async def main(request, connection, cursor):
+    await cursor.execute("CREATE TABLE data(name TEXT, value BIGINT)")
+    return response.text("create a table")
+    
+app.run()
+```
