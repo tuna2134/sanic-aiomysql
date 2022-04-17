@@ -43,5 +43,5 @@ class ExtendMySQL:
             request.ctx.cursor = await request.ctx.connection.cursor()
 
     async def on_response(self, request, response):
-        if hasattr(request.ctx, "_connection"):
-            self.pool.release(request.ctx._connection)
+        if hasattr(request.ctx, "connection"):
+            self.pool.release(request.ctx.connection)
