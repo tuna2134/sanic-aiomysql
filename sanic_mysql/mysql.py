@@ -16,18 +16,18 @@ class ExtendMySQL:
         app.register_middleware(self.on_response, "response")
 
     @property
-    def pool(self):
+    def pool(self) -> Pool:
         if self.__pool is not None:
             return self.__pool
         else:
             raise ConnectionError("Please connect to MySQL server")
     
-    async def close(self):
+    async def close(self) -> None:
         self.pool.close()
         await self.pool.wait_closed()
         self.__pool = None
 
-    async def before_server_start(self, app: Sanic, loop):
+    async def before_server_start(self, app: Sanic, loop) -> None:
         args, kwargs = self.setting
         if self.loop is None:
             kwargs["loop"] = loop
@@ -36,12 +36,12 @@ class ExtendMySQL:
         else:
             raise ConnectionError("Already connected to MySQL server.")
 
-    async def on_request(self, request: Request):
+    async def on_request(self, request: Request) -> None:
         request.ctx.pool: Pool = self.pool
         if self.auto:
             request.ctx.connection = await self.pool.acquire()
             request.ctx.cursor = await request.ctx.connection.cursor()
 
-    async def on_response(self, request: Request, response):
+    async def on_response(self, request: Request, response) -> None:
         if hasattr(request.ctx, "connection"):
             self.pool.release(request.ctx.connection)
