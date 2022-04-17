@@ -4,7 +4,7 @@ from functools import wraps
 import asyncio
 
 def cursor():
-    def decorator(f)
+    def decorator(f):
         @wraps(f)
         async def decorator_function(request, *args, **kwargs):
             connection = await request.ctx.pool.acquire()
