@@ -1,13 +1,14 @@
 from sanic import Sanic, Request
 from aiomysql import create_pool, Pool
+import asyncio
 
 class ConnectionError(Exception):
     pass
 
 class ExtendMySQL:
-    def __init__(self, app: Sanic, loop=None, auto=False, *args, **kwargs):
+    def __init__(self, app: Sanic, loop: asyncio.AbstractEventLoop=None, auto: bool=False, *args, **kwargs):
         self.auto: bool = auto
-        self.loop = loop
+        self.loop: asyncio.AbstractEventLoop = loop
         self.setting = (args, kwargs)
         self.app: Sanic = app
         self.__pool: Pool = None
@@ -27,7 +28,7 @@ class ExtendMySQL:
         await self.pool.wait_closed()
         self.__pool = None
 
-    async def before_server_start(self, app: Sanic, loop) -> None:
+    async def before_server_start(self, app: Sanic, loop: asyncio.AbstractEventLoop) -> None:
         args, kwargs = self.setting
         if self.loop is None:
             kwargs["loop"] = loop
