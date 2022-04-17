@@ -5,7 +5,8 @@ class ConnectionError(Exception):
     pass
 
 class ExtendMySQL:
-    def __init__(self, app: Sanic, loop=None, *args, **kwargs):
+    def __init__(self, app: Sanic, loop=None, auto=False, *args, **kwargs):
+        self.auto = auto
         self.loop = loop
         self.setting = (args, kwargs)
         self.app = app
@@ -37,8 +38,9 @@ class ExtendMySQL:
 
     async def on_request(self, request):
         request.ctx.pool = self.pool
-        request.ctx.connection = await self.pool.acquire()
-        request.ctx.cursor = await request.ctx.connection.cursor()
+        if self.auto:
+            request.ctx.connection = await self.pool.acquire()
+            request.ctx.cursor = await request.ctx.connection.cursor()
 
     async def on_response(self, request, response):
         if hasattr(request.ctx, "_connection"):
