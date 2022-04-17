@@ -11,7 +11,7 @@ def app():
     
     @sanic_app.get("/")
     @sanic_mysql.cursor()
-    def basic(request, connection, cursor):
+    async def basic(request, connection, cursor):
         await cursor.execute("SELECT * FROM test")
         return response.text("foo")
     return sanic_app
