@@ -9,7 +9,7 @@ def cursor():
         async def decorator_function(request, *args, **kwargs):
             connection = await request.ctx.pool.acquire()
             cursor = await connection.cursor()
-            response = await f(request, connection, cursor)
+            response = await f(request, connection, cursor, *args, **kwargs)
             request.ctx.pool.release(connection)
             return response
         return decorator_function
