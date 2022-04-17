@@ -8,7 +8,7 @@ def _requires_from_file(filename):
 
 setuptools.setup(
     name="sanic-aioMySQL",
-    version="2022.4.13",
+    version="2022.4.17",
     author="DMS",
     author_email="masato190411@gmail.com",
     description="Easy to use MySQL for sanic.",
