@@ -6,6 +6,13 @@ class ConnectionError(Exception):
     pass
 
 class ExtendMySQL:
+    """Easy to use MySQL.
+    
+    Args:
+        app (sanic.Sanic): sanic application
+        loop (asyncio.AbstractEventLoop): If you want to specify loop, please write a loop here.
+        auto (bool): If you want to use request.ctx.connection and request.ctx.cursor, please make it true.
+    """
     def __init__(self, app: Sanic, loop: asyncio.AbstractEventLoop=None, auto: bool=False, *args, **kwargs):
         self.auto: bool = auto
         self.loop: asyncio.AbstractEventLoop = loop
@@ -18,12 +25,18 @@ class ExtendMySQL:
 
     @property
     def pool(self) -> Pool:
+        """return aiomysql.Pool
+        
+        Returns:
+           aiomysql.Pool: return pool.
+        """
         if self.__pool is not None:
             return self.__pool
         else:
             raise ConnectionError("Please connect to MySQL server")
     
     async def close(self) -> None:
+        "close pool"
         self.pool.close()
         await self.pool.wait_closed()
         self.__pool = None
