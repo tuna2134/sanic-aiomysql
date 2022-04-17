@@ -23,4 +23,4 @@ jobs:
         python3 setup.py sdist bdist_wheel
     - name: upload
       run: |
-        twine upload -u "__token__" -p ${{ secrets.PYPI_ACCESS_TOKEN }} dist/*
+        twine upload -u "__token__" -p ${{ secrets.PYPI_API_TOKEN }} dist/*
