@@ -1,6 +1,19 @@
 from sanic import Sanic, Request
 from aiomysql import create_pool, Pool
+from functools import wraps
 import asyncio
+
+def cursor():
+    def decorator(f)
+        @wraps(f)
+        async def decorator_function(request, *args, **kwargs):
+            connection = await request.ctx.pool.acquire()
+            cursor = await connection.cursor()
+            response = await f(request, connection, cursor)
+            request.ctx.pool.release(connection)
+            return response
+        return decorator_function
+    return decorator
 
 class ConnectionError(Exception):
     pass
