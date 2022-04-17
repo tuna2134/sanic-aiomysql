@@ -15,7 +15,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/tuna2134/sanic-aioMySQL",
-    install_requires=_requires_from_file('rqs.txt'),
+    install_requires=_requires_from_file('requirements.txt'),
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3.8",
