@@ -58,7 +58,7 @@ class ExtendMySQL:
         args, kwargs = self.setting
         if self.loop is None:
             kwargs["loop"] = loop
-        if self.app is not None:
+        if self.__pool is None:
             self.__pool = await create_pool(*args, **kwargs)
         else:
             raise ConnectionError("Already connected to MySQL server.")
