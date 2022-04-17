@@ -1,3 +1,3 @@
-from .mysql import ExtendMySQL
+from .mysql import ExtendMySQL, ConnectionError
 
-__all__ = ["ExtendMySQL"]
+__all__ = ("ExtendMySQL", "ConnectionError")
