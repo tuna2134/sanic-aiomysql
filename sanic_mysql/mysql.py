@@ -1,16 +1,16 @@
-from sanic import Sanic
-from aiomysql import create_pool
+from sanic import Sanic, Request
+from aiomysql import create_pool, Pool
 
 class ConnectionError(Exception):
     pass
 
 class ExtendMySQL:
     def __init__(self, app: Sanic, loop=None, auto=False, *args, **kwargs):
-        self.auto = auto
+        self.auto: bool = auto
         self.loop = loop
         self.setting = (args, kwargs)
-        self.app = app
-        self.__pool = None
+        self.app: Sanic = app
+        self.__pool: Pool = None
         app.register_listener(self.before_server_start, "before_server_start")
         app.register_middleware(self.on_request, "request")
         app.register_middleware(self.on_response, "response")
@@ -27,7 +27,7 @@ class ExtendMySQL:
         await self.pool.wait_closed()
         self.__pool = None
 
-    async def before_server_start(self, app, loop):
+    async def before_server_start(self, app: Sanic, loop):
         args, kwargs = self.setting
         if self.loop is None:
             kwargs["loop"] = loop
@@ -36,12 +36,12 @@ class ExtendMySQL:
         else:
             raise ConnectionError("Already connected to MySQL server.")
 
-    async def on_request(self, request):
-        request.ctx.pool = self.pool
+    async def on_request(self, request: Request):
+        request.ctx.pool: Pool = self.pool
         if self.auto:
             request.ctx.connection = await self.pool.acquire()
             request.ctx.cursor = await request.ctx.connection.cursor()
 
-    async def on_response(self, request, response):
+    async def on_response(self, request: Request, response):
         if hasattr(request.ctx, "connection"):
             self.pool.release(request.ctx.connection)
