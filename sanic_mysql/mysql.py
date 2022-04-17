@@ -5,7 +5,8 @@ class ConnectionError(Exception):
     pass
 
 class ExtendMySQL:
-    def __init__(self, app: Sanic, *args, **kwargs):
+    def __init__(self, app: Sanic, loop=None, *args, **kwargs):
+        self.loop = loop
         self.setting = (args, kwargs)
         self.app = app
         self.__pool = None
@@ -27,8 +28,8 @@ class ExtendMySQL:
 
     async def before_server_start(self, app, loop):
         args, kwargs = self.setting
-        kwargs["loop"] = loop
-        kwargs["autocommit"] = True
+        if self.loop is None:
+            kwargs["loop"] = loop
         if self.app is not None:
             self.__pool = await create_pool(*args, **kwargs)
         else:
