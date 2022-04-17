@@ -7,7 +7,7 @@ def _requires_from_file(filename):
     return open(filename, encoding="utf8").read().splitlines()
 
 setuptools.setup(
-    name="sanic-aioMySQL",
+    name="sanic-aiomysql",
     version="2022.4.17",
     author="DMS",
     author_email="masato190411@gmail.com",
