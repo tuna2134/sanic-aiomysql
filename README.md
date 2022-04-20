@@ -1,4 +1,7 @@
 # sanic-aiomysql
+[![Downloads](https://pepy.tech/badge/sanic-aiomysql)](https://pepy.tech/project/sanic-aiomysql)
+[![Downloads](https://pepy.tech/badge/sanic-aiomysql/month)](https://pepy.tech/project/sanic-aiomysql)
+[![Downloads](https://pepy.tech/badge/sanic-aiomysql/week)](https://pepy.tech/project/sanic-aiomysql)
 
 ## setup
 
