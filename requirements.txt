@@ -1,1 +1,1 @@
-aiomysql>=0.1.0
+aiomysql>=0.3.2
